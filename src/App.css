@@ -1,0 +1,72 @@
+.App {
+    text-align: center;
+}
+
+#map {
+    overflow: hidden;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    z-index: 1;
+}
+
+.list {
+    list-style-type: none;
+    text-align: left;
+    font-size: 1em;
+    padding: 0.5em;
+    margin: 0;
+}
+
+.list li {
+    color: #000000;
+    cursor: pointer;
+    width: 100%;
+    padding: 0.3em 0;
+}
+
+.search-box {
+    background-color: #f9f9f9;
+    border-radius: 0.4em;
+    padding: 0.4em 1em;
+    width:100%;
+    max-width: 450px;
+}
+
+.search-box::placeholder {
+    color: #cccccc;
+}
+
+/* Popup Window */
+.location-title {
+    background-color: #002244;
+}
+.left-popup {
+    float:left;
+    width:55%;
+    text-align:left;
+}
+
+.right-popup {
+    float:left;
+    width:45%;
+    text-align:left;
+}
+
+.full-popup {
+    float:left;
+    width:100%;
+    text-align:left;
+}
+
+.location-title {
+    font-size: 1.5rem;
+}
+
+@media (max-width: 767px) {
+    .search-box {
+        width:100%;
+        max-width: 767px;
+    }
+}
