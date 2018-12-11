@@ -12,7 +12,7 @@ class Nav extends Component {
 		this.state = {
 			collapsed: true,
 			toggleIsOpen: false
- 		};
+		};
 	}
 	toggleNavbar() {
 		this.setState({
@@ -55,39 +55,39 @@ class Nav extends Component {
 							onClick={this.toggleOpen}
 						>
 							<a
-				                className="nav-link dropdown-toggle"
-				                href="#"
-				                id="dropdown-toggle"
-				                data-toggle="barDropdown"
-				                aria-haspopup="true"
-				                aria-expanded="false"
-			                > 
+								className="nav-link dropdown-toggle"
+								href="#"
+								id="dropdown-toggle"
+								data-toggle="barDropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							> 
 							Bar List
 							</a>
 							<div className={menuClass} aria-labelledby="barDropdown">
 								<ul className='list'
-					                aria-label="List of locations"
-					                role="tabpanel"
-					                tabIndex="0"
-					            > 
+									aria-label="List of locations"
+									role="tabpanel"
+									tabIndex="0"
+								> 
 					            {items.map((location, index) => {
-					                const itemSelected = (location.id === barSelected.id ? 'selectedItem' : '');
-					                return (
-					                    <li role="tab" className={itemSelected}
-					                        key={index}
-					                        onClick={() => selectBar(location)}
-					                        onKeyDown={(event) => {
-					                            if (event.keyCode === 13) {
-					                                selectBar(location)
-					                            }
-					                        }}
-					                        tabIndex="0"
-					                    >
-					                        {location.name}
-					                    </li>
-					                )
-					            })}
-					            </ul>
+									const itemSelected = (location.id === barSelected.id ? 'selectedItem' : '');
+										return (
+											<li role="tab" className={itemSelected}
+												key={index}
+												onClick={() => selectBar(location)}
+												onKeyDown={(event) => {
+													if (event.keyCode === 13) {
+														selectBar(location)
+													}
+												}}
+												tabIndex="0"
+											>
+												{location.name}
+											</li>
+											)
+										})}
+									</ul>
 							</div>
 						</li>
 					</ul>

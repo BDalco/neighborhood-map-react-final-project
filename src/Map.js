@@ -30,7 +30,7 @@ class Map extends Component {
 		script.async = true;
 		script.defer = true;
 		document.body.appendChild(script);
-    	window.initMap = this.initMap;
+		window.initMap = this.initMap;
 	}
 
 	/* Start initializing the map */
@@ -46,7 +46,7 @@ class Map extends Component {
 
 		/* Create InfoWindow */
 		const infoWindow = new window.google.maps.InfoWindow({
-    	});
+		});
 
 		/* Create and Set The Markers */
 		this.setState({setMap: mapGoogle}, (() => {
@@ -79,8 +79,8 @@ class Map extends Component {
 			this.createInfoWindow = (marker, infoWindow, mapSet) => {
 				const venueID = marker.id;
 				const clientID = 'DBGTQ5ZRH4UPHSNPA1ZJ1DXO2ZLQ2HHUFGP2ZJIIK0KFVC1K';
-			    const secret = 'XNEU1FSBNYYT1FUV2OSBHB0KFLFPT5VFDCNFDFIAJ052TCJF';
-			    const url =
+				const secret = 'XNEU1FSBNYYT1FUV2OSBHB0KFLFPT5VFDCNFDFIAJ052TCJF';
+				const url =
 			    	'https://api.foursquare.com/v2/venues/' +
 					venueID +
 					'?&client_id=' +
@@ -97,9 +97,6 @@ class Map extends Component {
 						response
 							.json()
 							.then(function(data) {
-								/* console.log(data);
-								console.log(data.response);
-								console.log(data.response.venue);*/
 								const venue = data.response.venue;
 								
 								let innerHTML = '<div aria-label="infowindow" tabindex="1">'
@@ -108,26 +105,26 @@ class Map extends Component {
 								innerHTML += '<div class="left-popup">'
 								if (venue.location.address !== undefined) {				
 									innerHTML += '<p>' + venue.location.address + '<br>'
-   								} else {
-   									innerHTML += ' '
-   								}
-   								if (venue.location.city !== undefined) {				
+									} else {
+										innerHTML += ' '
+									}
+									if (venue.location.city !== undefined) {				
 									innerHTML += venue.location.city + `,`
-   								} else {
-   									innerHTML += ' '
-   								}
-   								if (venue.location.state !== undefined) {				
+									} else {
+										innerHTML += ' '
+									}
+									if (venue.location.state !== undefined) {				
 									innerHTML += venue.location.state + '</p>'
-   								} else {
-   									innerHTML += '<br>'
-   								}
-   								if (venue.url !== undefined) {
-   									let url = venue.url;
+								} else {
+									innerHTML += '<br>'
+								}
+								if (venue.url !== undefined) {
+									let url = venue.url;
 									innerHTML += `<p><a href="${url}" target="_blank">Website</a></p>`
 								} else {
 									innerHTML += '<p>No Website</p>'
 								}
-   								// phone number
+								// phone number
 								if (venue.contact.formattedPhone !== undefined) {
 									innerHTML += '<p>' + venue.contact.formattedPhone + '</p>'
 									} else {
@@ -198,18 +195,19 @@ class Map extends Component {
 					// Close the current infowindow
 					infoWindow.addListener('closeclick', function() {
 						infoWindow.marker = null;
-	          		});
+					});
 				}
 			}
 
 		))
 	};
 	
+	/* Dropdown selection */
 	itemSelected = (marker) => {
 		const selectedLocation = this.state.barSelected;
 		if(marker.id === selectedLocation.id) {
-		  this.createInfoWindow(marker, this.state.infoWindow, this.state.setMap);
-		  return
+			this.createInfoWindow(marker, this.state.infoWindow, this.state.setMap);
+			return
 		} else {
 			return null
 		}
@@ -218,9 +216,9 @@ class Map extends Component {
 	/* Select a bar */
 	selectBar = (location) => {
 		if (location.id === this.state.barSelected.id) {
-		  this.setState({barSelected: ''});
+			this.setState({barSelected: ''});
 		} else {
-		  this.setState({barSelected: location});
+			this.setState({barSelected: location});
 		}
 	}
 	
@@ -248,21 +246,21 @@ class Map extends Component {
 		})
 		return (
 			<div id="container">
-		        {
-		          barFiltered.forEach(eachMarker => {
-		            eachMarker.setMap(this.state.setMap);
-		            eachMarker.setAnimation(this.itemSelected(eachMarker));
-		          })
-		        }
-		        <Nav 
-      				locations={this.state.locations}
-      				barSelected={this.state.barSelected}
-		          	barFiltering={this.state.barFiltering}
-		          	selectBar={this.selectBar}
-      				query={this.query}
-      			/>
+				{
+					barFiltered.forEach(eachMarker => {
+						eachMarker.setMap(this.state.setMap);
+						eachMarker.setAnimation(this.itemSelected(eachMarker));
+					})
+				}
+				<Nav 
+					locations={this.state.locations}
+					barSelected={this.state.barSelected}
+					barFiltering={this.state.barFiltering}
+					selectBar={this.selectBar}
+					query={this.query}
+				/>
 				<div id="map" aria-label="Top Chicago Bars" role="application"></div>
-      		</div>
+			</div>
 		)
 	}
 
