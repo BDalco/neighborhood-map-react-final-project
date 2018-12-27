@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { bars } from './bars';
 import Nav from './TopNavBar';
-import escapeRegExp from 'escape-string-regexp';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 /* Create Google Map in React 
@@ -29,6 +28,7 @@ class Map extends Component {
 		script.src = `https://maps.googleapis.com/maps/api/js?key=${APIKey}&v=3&callback=initMap`;
 		script.async = true;
 		script.defer = true;
+		script.setAttribute('onerror', `googleLoadError()`);
 		document.body.appendChild(script);
 		window.initMap = this.initMap;
 	}
@@ -56,12 +56,22 @@ class Map extends Component {
 				const barName = position.name
 				const markerPosition = position.location
 				const marker = new window.google.maps.Marker({
-					map: mapSet,
-					position: markerPosition,
 					barName: barName,
-					id: position.id
+					id: position.id,
+					map: mapSet,
+					position: markerPosition
 				});
 				bounds.extend(marker.position);
+
+				/* image rollover (mouseover) event for info window */
+				marker.addListener('mouseover', function() {
+					this.setAnimation(window.google.maps.Animation.BOUNCE);
+				});
+				
+				/* image rollover (mouseout) event for info window */
+				marker.addListener('mouseout', function() {
+					this.setAnimation(null);
+				});
 
 				/* click event for info window */
 				marker.addListener('click', () => {
@@ -187,15 +197,27 @@ class Map extends Component {
 
 								infoWindow.setContent(`${innerHTML}`);
 							})
-					});
-					infoWindow.marker = marker;
-					// Close the "previous" infowindow
-					infoWindow.close();
-					infoWindow.open(mapSet, marker);
-					// Close the current infowindow
-					infoWindow.addListener('closeclick', function() {
-						infoWindow.marker = null;
-					});
+							.catch(function(error) {
+								let innerHTML = '<div aria-label="infowindow" tabindex="1">'
+								innerHTML += `<h2 class="iw-title" tabIndex="1">${marker.barName}</h2>`
+								innerHTML += '<div class="iw-content">'
+								innerHTML += '<div class="left-popup">'
+								innerHTML += '<p> <strong>Sorry, no data at this time.</strong>'
+								innerHTML += '</div>'
+								innerHTML += '</div>'
+								innerHTML += '</div>'
+								infoWindow.setContent(`${innerHTML}`);
+							});
+						});
+						infoWindow.marker = marker;
+						// Close the "previous" infowindow
+						infoWindow.close();
+						infoWindow.open(mapSet, marker);
+						// Close the current infowindow
+						infoWindow.addListener('closeclick', function() {
+							infoWindow.marker = null;
+						});
+
 				}
 			}
 
@@ -207,7 +229,6 @@ class Map extends Component {
 		const selectedLocation = this.state.barSelected;
 		if(marker.id === selectedLocation.id) {
 			this.createInfoWindow(marker, this.state.infoWindow, this.state.setMap);
-			return
 		} else {
 			return null
 		}
